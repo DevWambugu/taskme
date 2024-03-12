@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+   <head>
+       <title>findme</title>
+       <link rel="stylesheet" href="style.css">
+       <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+       <link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+   </head>
+   <body>
+        <!-- Navigation code -->
+       <nav id="navbar" class="nav-bar-white">
+            <img src="" alt="">
+            <ul class="navlinks">
+                <li><a href="#" class="active">Laundry</a></li>
+                <li><a href="#">Full Package</a></li>
+                <li><a href="#">Domestic Worker</a></li>
+            </ul>
+            <a href="registration.html" class="register">Register</a>
+            <i class="fas fa-bars" onclick="togglebtn()"></i>
+       </nav>
+       <!-- End of Navigation -->
+
+       <div class="container">
+        <div class="list-container">
+            <div class="left-col">
+                <h1>Call Me</h1>
+
+                <!-- Loop through services and dynamically display them-->
+                {% for service in services %}
+                <div class="Worker">
+                    <div class="worker-info">
+                        <h3>{{ service.id }}</h3>
+                        <h3>{{ service.name }}</h3>
+                        <h3>{{ service.location }}</h3>
+                        <h3>{{ service.contact }}</h3>
+                    </div>
+                </div>
+                <hr style="margin: 20px 0;">
+                {% endfor %}
+                <!-- End of loop-->
+            </div>
+
+            <div class="right-col"></div>
+        </div>
+        <hr style="margin: 30px 0;">
+
+        <!-- Footer code -->
+<div class="footer">
+    <div class="btn">
+        <div class="icon">
+            <i href="facebook.com" class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <span>Facebook</span>
+    </div>
+    <div class="btn">
+        <div class="icon">
+            <i href="x.com" class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <span>X</span>
+    </div>  
+    <div class="btn">
+        <div class="icon">
+            <i href="instagram.com" class="fa fa-instagram" aria-hidden="true"></i>
+        </div>
+        <span>Instagram</span>
+    </div>  
+    <div class="btn">
+        <div class="icon">
+            <i href="youtube.com" class="fa fa-youtube" aria-hidden="true"></i>
+        </div>
+        <span>Youtube</span>
+    </div>      
+    <!-- End of footer code -->   
+</div>        
+</body>
+</html>
