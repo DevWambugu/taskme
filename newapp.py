@@ -1,5 +1,7 @@
 from flask import Blueprint
 from . import db
+from flask import render_template
+from flask_login import login_required, current_user
 
 main = Blueprint('main', __name__)
 #Define Models
@@ -88,7 +90,7 @@ class UserForm(FlaskForm):
 #    return jsonify(message='all good!')
 
 @main.route('/', strict_slashes=False)
-def home_page():
+def index():
     return render_template('/index.html')
 
 @main.route('/registration.html', strict_slashes=False)
@@ -96,8 +98,9 @@ def registration_page():
     return render_template('registration.html')
 
 @main.route('/index.html', strict_slashes=False)
-def index_page():
-    return render_template('index.html')
+@login_required
+def profile():
+    return render_template('profile.html, name=current_user.name')
 
 @main.route('/services.html', strict_slashes=False)
 def services_page():
