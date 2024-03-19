@@ -13,3 +13,11 @@ def index():
 @login_required
 def profile():
     return render_template('profile.html', name=current_user.name)
+
+@main.route('/listing_page.html')
+def listing_page():
+    return render_template('templates/listing_page.html')
+
+@main.route('/register_board.html')
+def register_board():
+    return render_template('templates/register_board.html')
