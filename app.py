@@ -14,10 +14,10 @@ def index():
 def profile():
     return render_template('profile.html', name=current_user.name)
 
-@main.route('/listing_page.html')
+@main.route('/listing_page')
 def listing_page():
-    return render_template('templates/listing_page.html')
+    return render_template('listing_page.html')
 
-@main.route('/register_board.html')
+@main.route('/register_board')
 def register_board():
-    return render_template('templates/register_board.html')
+    return render_template('register_board.html')

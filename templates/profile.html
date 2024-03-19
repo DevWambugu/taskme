@@ -4,29 +4,20 @@
 <h1 class="title">
   Welcome, {{ name }}!
 </h1>
+<div class="centered-content">
 <div class="buttons">
   <button id="applyJobBtn">Apply Job</button>
   <button id="postJobBtn">Post Job</button>
 </div>
-<div id="dynamicContent"></div>
+</div>
 <script>
-  // Function to load content dynamically
-  function loadContent(url) {
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('dynamicContent').innerHTML = data;
-      })
-      .catch(error => console.error('Error fetching content:', error));
-  }
-
-  // Event listeners for buttons
   document.getElementById('applyJobBtn').addEventListener('click', function() {
-    loadContent('listing_page.html');
+    window.location.href = '/listing_page';
   });
 
-  document.getElementById('postJobBtn').addEventListener('click', function() {
-    loadContent('register_board.html');
-  });
+document.getElementById('postJobBtn').addEventListener('click', function() {
+    window.location.href = '/register_board';
+});
+
 </script>
 {% endblock %}
