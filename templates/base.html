@@ -7,15 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Taskme Homepage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
-    <style>
-        .centered-content {
-	text-align: center;
-	}
-	.buttons {
-        justify-content: center;
-	align-items: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -63,3 +54,44 @@
 </body>
 
 </html>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+        var email = document.getElementById("email").value;
+        var name = document.getElementById("name").value;
+        var password = document.getElementById("password").value;
+
+        if (!email.includes("@")) {
+            alert("Please enter a valid email address.");
+            event.preventDefault(); // Prevent form submission
+            return false;
+        }
+
+        if (!/^[a-zA-Z]+$/.test(name)) {
+            alert("Name must contain only alphabetic characters.");
+            event.preventDefault(); // Prevent form submission
+            return false;
+        }
+
+        // Additional custom validation if needed
+
+        // If all validations pass, the form will be submitted
+        return true;
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        if (!email.includes("@")) {
+            alert("Please enter a valid email address.");
+            event.preventDefault(); // Prevent form submission
+            return false;
+        }
+
+        // Additional custom validation if needed
+
+        // If all validations pass, the form will be submitted
+        return true;
+    });
+</script>
