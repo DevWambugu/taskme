@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'taskme**2024'
-    root_password = '2017'
+    root_password = ''
     '''taskme_password = 'taskme**2024'''
     encoded_root_password = quote_plus(root_password)
 
