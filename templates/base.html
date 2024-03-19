@@ -21,6 +21,12 @@
                                 Home
                             </a>
                             {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
+                                Jobs Posted
+                            </a>
+                            <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
+                                Jobs Applied
+                            </a>
                             <a href="{{ url_for('main.profile') }}" class="navbar-item">
                                 Profile
                             </a>
@@ -51,47 +57,48 @@
             </div>
         </div>
     </section>
+
+    <!-- JavaScript for form validation -->
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            var email = document.getElementById("email").value;
+            var name = document.getElementById("name").value;
+            var password = document.getElementById("password").value;
+    
+            if (!email.includes("@")) {
+                alert("Please enter a valid email address.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+    
+            if (!/^[a-zA-Z]+$/.test(name)) {
+                alert("Name must contain only alphabetic characters.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+    
+            // Additional custom validation if needed
+    
+            // If all validations pass, the form will be submitted
+            return true;
+        });
+    
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+    
+            if (!email.includes("@") (".com")) {
+                alert("Please enter a valid email address.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+    
+            // Additional custom validation if needed
+    
+            // If all validations pass, the form will be submitted
+            return true;
+        });
+    </script>
 </body>
 
 </html>
-
-<script>
-    document.getElementById("signupForm").addEventListener("submit", function(event) {
-        var email = document.getElementById("email").value;
-        var name = document.getElementById("name").value;
-        var password = document.getElementById("password").value;
-
-        if (!email.includes("@")) {
-            alert("Please enter a valid email address.");
-            event.preventDefault(); // Prevent form submission
-            return false;
-        }
-
-        if (!/^[a-zA-Z]+$/.test(name)) {
-            alert("Name must contain only alphabetic characters.");
-            event.preventDefault(); // Prevent form submission
-            return false;
-        }
-
-        // Additional custom validation if needed
-
-        // If all validations pass, the form will be submitted
-        return true;
-    });
-
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
-
-        if (!email.includes("@")) {
-            alert("Please enter a valid email address.");
-            event.preventDefault(); // Prevent form submission
-            return false;
-        }
-
-        // Additional custom validation if needed
-
-        // If all validations pass, the form will be submitted
-        return true;
-    });
-</script>

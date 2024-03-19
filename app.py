@@ -9,6 +9,15 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
+@main.route('/jobs/posted')
+@login_required
+def jobs_posted():
+    return render_template('jobs_posted.html')
+
+@main.route('/jobs/applied')
+def jobs_applied():
+    return render_template('jobs_applied.html')
+
 @main.route('/profile')
 @login_required
 def profile():
