@@ -1,5 +1,76 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
-<!-- Your HTML content for jobs posted page goes here -->
-{% endblock %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jobs Posted</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+</head>
+
+<style>
+    .container.has-text-left {
+        position: absolute;
+        top: 100px;
+        left: 50px;
+    }
+</style>
+
+<body>
+    <section class="hero is-primary is-fullheight">
+
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a href="{{ url_for('main.index') }}" class="navbar-item">
+                                Home
+                            </a>
+                            <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
+                                Jobs Posted
+                            </a>
+                            <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
+                                Jobs Applied
+                            </a>
+                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                                Profile
+                            </a>
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container has-text-left">
+            {% block content %}
+            <h1>Job Listings</h1>
+
+            <!-- Category Filter -->
+            <form id="filter-form">
+                <label for="category-filter">Filter by Category:</label>
+                <select id="category-filter" name="category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+
+            <!-- Job Listings -->
+            <ul class="job-listing">
+                {% for job in jobs %}
+                    <li>{{ job.title }} - {{ job.category }}</li>
+                {% endfor %}
+            </ul>
+            {% endblock %}
+        </div>
+    </section>
+</body>
+
+</html>
