@@ -8,30 +8,4 @@
   Welcome to TaskMe!
   Happy to have you on board!
 </h2>
-<div class="buttons">
-  <button id="applyJobBtn">Apply Job</button>
-  <button id="postJobBtn">Post Job</button>
-</div>
-<div id="dynamicContent"></div>
-
-<script>
-  // Function to load content dynamically
-  function loadContent(url) {
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('dynamicContent').innerHTML = data;
-      })
-      .catch(error => console.error('Error fetching content:', error));
-  }
-
-  // Event listeners for buttons
-  document.getElementById('applyJobBtn').addEventListener('click', function() {
-    loadContent('listing_page.html');
-  });
-
-  document.getElementById('postJobBtn').addEventListener('click', function() {
-    loadContent('register_board.html');
-  });
-</script>
 {% endblock %}
