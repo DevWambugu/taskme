@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from . import db
 from .models import Job
 from flask_login import login_required, current_user
@@ -44,7 +44,11 @@ def register_board():
         db.session.add(post_job)
         db.session.commit()
 
-        return 'Job Posted Successfully', 200
+        # FLash success message
+        flash('Job Posted Successfully'), 200
+
+        # Redirect to jobs_posted.html
+        return redirect(url_for('main.jobs_posted'))
     else:
         # Render the form for GET requests
         return render_template('register_board.html')
