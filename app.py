@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template
-from . import db
+from flask import Blueprint, render_template, request
+from . import db#, Job
 from flask_login import login_required, current_user
 
 
@@ -27,6 +27,21 @@ def profile():
 def listing_page():
     return render_template('listing_page.html')
 
-@main.route('/register_board')
+@main.route('/register_board', methods=['GET', 'POST'])
 def register_board():
-    return render_template('register_board.html')
+    if request.method == 'POST':
+        # Handle for submission
+        title = request.form.get('title')
+        description = request.form.get('description')
+        price = request.form.get('price')
+        category = request.form.get('category')
+
+        # Save form data to a database
+        post_job = Job(title=title, description=description, price=price, category=category)
+        db.session.add(post_job)
+        db.session.commit()
+
+        return 'Job Posted Successfully', 200
+    else:
+        # Render the form for GET requests
+        return render_template('register_board.html')

@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from urllib.parse import quote_plus
+#from .models.py import Job
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
@@ -10,7 +11,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'taskme**2024'
-    root_password = ''
+    root_password = '2017'
     '''taskme_password = 'taskme**2024'''
     encoded_root_password = quote_plus(root_password)
 
