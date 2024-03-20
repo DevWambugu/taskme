@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request
-from . import db#, Job
+from . import db
 from flask_login import login_required, current_user
-
 
 main = Blueprint('main', __name__)
 
@@ -29,6 +28,7 @@ def listing_page():
 
 @main.route('/register_board', methods=['GET', 'POST'])
 def register_board():
+    from .models import Job
     if request.method == 'POST':
         # Handle for submission
         title = request.form.get('title')
