@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
 from . import db
+from .models import Job
 from flask_login import login_required, current_user
 
 main = Blueprint('main', __name__)
@@ -11,7 +12,9 @@ def index():
 @main.route('/jobs/posted')
 @login_required
 def jobs_posted():
-    return render_template('jobs_posted.html')
+    # Retrieve all posted jobs from the database
+    jobs = Job.query.all()
+    return render_template('jobs_posted.html', jobs=jobs) # Pass jobs data to the template
 
 @main.route('/jobs/applied')
 def jobs_applied():
