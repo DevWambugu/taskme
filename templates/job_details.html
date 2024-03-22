@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Details</title>
+</head>
+<body>
+    <h1>{{ job.title }}</h1>
+    <p>{{ job.description }}</p>
+    <p>Price: {{ job.price }}</p>
+    <p>Category: {{ job.category }}</p>
+    
+    <!-- Apply and Decline Buttons -->
+    <form action="{{ url_for('main.apply_job', job_id=job.id) }}" method="POST">
+        <button type="submit">Apply</button>
+    </form>
+    
+    <form action="{{ url_for('main.decline_job', job_id=job.id) }}" method="POST">
+        <button type="submit">Decline</button>
+    </form>
+</body>
+</html>

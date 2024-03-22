@@ -37,3 +37,14 @@
                 </div>
             </nav>
         </div>
+
+        <div class="container has-text-left">
+            {% block content %}
+            <h1>Jobs Applied</h1>
+            <ul>
+                {% for job in applied_jobs %}
+                    <li>{{ job.title }}</li>
+                {% endfor %}
+            </ul>
+            {% endblock %}
+        </div>
