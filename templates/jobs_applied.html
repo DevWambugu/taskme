@@ -5,9 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jobs Posted</title>
+    <title>Jobs Applied</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 </head>
+
+<style>
+    .container.has-text-left {
+        position: absolute;
+        top: 100px;
+        left: 50px;
+    }
+</style>
 
 <body>
     <section class="hero is-primary is-fullheight">
@@ -41,8 +49,17 @@
         <div class="container has-text-left">
             {% block content %}
             <h1>Jobs Applied</h1>
+
+            <h2>Applied Jobs:</h2>
             <ul>
-                {% for job in applied_jobs %}
+                {% for job in applied_jobs_applied %}
+                    <li>{{ job.title }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Declined Jobs:</h2>
+            <ul>
+                {% for job in applied_jobs_declined %}
                     <li>{{ job.title }}</li>
                 {% endfor %}
             </ul>

@@ -12,9 +12,9 @@ class User(db.Model, UserMixin):
     last_name = Column(String(128), nullable=True)
     contact = Column(String(128), nullable=True)
     location = Column(String(128), nullable=True)
-    #places = db.relationship('Place', backref='user', cascade='all, delete, delete-orphan')
-    #reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
-    applied_jobs = db.relationship('Job', secondary='user_job')
+    # places = db.relationship('Place', backref='user', cascade='all, delete, delete-orphan')
+    # reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
+    # applied_jobs = db.relationship('Job', secondary='user_job')
 
 class UserJob(db.Model):
     __tablename__ = "user_job"
@@ -26,6 +26,9 @@ class UserJob(db.Model):
     # Define a backref from Job to access users
     user = relationship('User', backref='user_jobs')
     job = relationship('Job', backref='user_jobs')
+
+    # Define a relationship with Job explicitly
+    job = relationship('Job', backref='applied_users')
 
 class Job(db.Model):
     __tablename__ = "job"

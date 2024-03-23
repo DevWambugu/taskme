@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from . import db
-from .models import Job
+from .models import Job, UserJob
 from flask_login import login_required, current_user
 
 main = Blueprint('main', __name__)
@@ -16,10 +16,15 @@ def jobs_posted():
     jobs = Job.query.all()
     return render_template('jobs_posted.html', jobs=jobs) # Pass jobs data to the template
 
-@main.route('/jobs/applied')
+@main.route('/jobs/applied', methods=['GET', 'POST'])
 def jobs_applied():
-    applied_jobs = current_user.applied_jobs
-    return render_template('jobs_applied.html', applied_jobs=applied_jobs)
+    if request.method == 'POST':
+        pass
+    else:
+        applied_jobs = UserJob.query.filter_by(user_id=current_user.id).all()  # Retrieve all UserJob objects for the current user
+        applied_jobs_applied = [job for job in applied_jobs if job.status == 'Accepted'] # Filter applied jobs
+        applied_jobs_declined = [job for job in applied_jobs if job.status == 'Declined'] # Filter declined jobs
+        return render_template('jobs_applied.html', applied_jobs_applied=applied_jobs_applied, applied_jobs_declined=applied_jobs_declined)
 
 @main.route('/decline_job/<int:job_id>', methods=['POST'])
 def decline_job(job_id):
