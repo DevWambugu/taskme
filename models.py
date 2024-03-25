@@ -52,6 +52,6 @@ class AppliedJob(db.Model):
 
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    expected_payment = db.Column(db.String(100))
-    cover_letter = db.Column(db.Text)
+    expected_payment = db.Column(db.String(100), nullable=False)
+    cover_letter = db.Column(db.Text, nullable=False)
     other_details = db.Column(db.Text)

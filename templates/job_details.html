@@ -10,7 +10,7 @@
     <p>Category: {{ job.category }}</p>
     
     <!-- Apply and Decline Buttons -->
-    <form action="{{ url_for('main.apply_job', job_id=job.id) }}" method="POST">
+    <form action="{{ url_for('main.apply_job') }}" method="POST">
         <button type="submit">Apply</button>
     </form>
     

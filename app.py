@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from . import db
-from .models import Job, UserJob
+from .models import Job, UserJob, JobApplication
 from flask_login import login_required, current_user
+import time
 
 main = Blueprint('main', __name__)
 
@@ -28,14 +29,17 @@ def jobs_applied():
 
 @main.route('/decline_job/<int:job_id>', methods=['POST'])
 def decline_job(job_id):
-    from .models import UserJob
+    from .models import UserJob, Job 
     job = Job.query.get_or_404(job_id)
     # Remove the UserJob entry to disassociate the user from the job
     user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
+    UserJob.status = 'Declined'
+    db.session.commit()
     if user_job:
         db.session.delete(user_job)
         db.session.commit()
         flash('You have declined the job.')
+
     return redirect(url_for('main.index'))
 
 @main.route('/profile')
@@ -79,21 +83,27 @@ def job_details(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('job_details.html', job=job)
 
-@main.route('/apply_job/<int:job_id>', methods=['POST'])
-def apply_job(job_id):
-    flash('You have successfully applied for the job.')
-    return redirect(url_for('main.index'))
+@main.route('/apply_job', methods=['POST'])
+def apply_job():
+    return render_template('job_application.html')
 
 @main.route('/submit_application', methods=['POST'])
+@login_required
 def submit_application():
     expected_payment = request.form['expected_payment']
     cover_letter = request.form['cover_letter']
     other_details = request.form['other_details']
+    if not expected_payment or not cover_letter:
+        flash('Expected payment and cover letter cannot be empty', 'error')
+        return render_template('job_application.html')
     
     new_application = JobApplication(expected_payment=expected_payment, cover_letter=cover_letter, other_details=other_details)
     db.session.add(new_application)
+    user_job = UserJob.query.filter_by(user_id=current_user.id).first()
+    if user_job:
+        user_job.status = 'Accepted'
     db.session.commit()
     
     flash('Application successful!', 'success')
     
-    return redirect(url_for('profile'))
+    return render_template('profile.html', name=current_user.name)
