@@ -83,3 +83,17 @@ def job_details(job_id):
 def apply_job(job_id):
     flash('You have successfully applied for the job.')
     return redirect(url_for('main.index'))
+
+@main.route('/submit_application', methods=['POST'])
+def submit_application():
+    expected_payment = request.form['expected_payment']
+    cover_letter = request.form['cover_letter']
+    other_details = request.form['other_details']
+    
+    new_application = JobApplication(expected_payment=expected_payment, cover_letter=cover_letter, other_details=other_details)
+    db.session.add(new_application)
+    db.session.commit()
+    
+    flash('Application successful!', 'success')
+    
+    return redirect(url_for('profile'))

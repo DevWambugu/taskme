@@ -49,3 +49,9 @@ class AppliedJob(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
+
+class JobApplication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    expected_payment = db.Column(db.String(100))
+    cover_letter = db.Column(db.Text)
+    other_details = db.Column(db.Text)
