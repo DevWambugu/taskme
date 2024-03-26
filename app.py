@@ -20,27 +20,26 @@ def jobs_posted():
 @main.route('/jobs/applied', methods=['GET', 'POST'])
 def jobs_applied():
     if request.method == 'POST':
+        # future possibility
+        # have a form for applying and declining
         pass
     else:
         applied_jobs = UserJob.query.filter_by(user_id=current_user.id).all()  # Retrieve all UserJob objects for the current user
-        applied_jobs_applied = [job for job in applied_jobs if job.status == 'Accepted'] # Filter applied jobs
+        applied_jobs_applied = [job for job in applied_jobs if job.status == 'Applied'] # Filter applied jobs
         applied_jobs_declined = [job for job in applied_jobs if job.status == 'Declined'] # Filter declined jobs
         return render_template('jobs_applied.html', applied_jobs_applied=applied_jobs_applied, applied_jobs_declined=applied_jobs_declined)
 
 @main.route('/decline_job/<int:job_id>', methods=['POST'])
 def decline_job(job_id):
-    from .models import UserJob, Job 
+    from .models import UserJob, Job
     job = Job.query.get_or_404(job_id)
-    # Remove the UserJob entry to disassociate the user from the job
+    # Fetch the UserJob entry to update the status
     user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
-    UserJob.status = 'Declined'
-    db.session.commit()
     if user_job:
-        db.session.delete(user_job)
+        user_job.status = 'Declined'
         db.session.commit()
         flash('You have declined the job.')
-
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.jobs_applied'))
 
 @main.route('/profile')
 @login_required
@@ -83,8 +82,26 @@ def job_details(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('job_details.html', job=job)
 
-@main.route('/apply_job', methods=['POST'])
-def apply_job():
+@main.route('/apply_job/<int:job_id>', methods=['POST'])
+def apply_job(job_id):
+    if current_user.is_authenticated:
+        # Check if the user is authenticated
+        if not current_user.is_authenticated:
+            flash('Please log in to apply for jobs.', 'error')
+            return redirect(url_for('auth.login'))
+
+        # Check if the user has already applied for this job
+        existing_user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
+        if existing_user_job:
+            flash('You have already applied for this job.')
+        else:
+            # Create a new UserJob instance
+            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied')
+            # Add it to the database session
+            db.session.add(new_user_job)
+            db.session.commit()
+            flash('You have successfully applied for the job.')
+
     return render_template('job_application.html')
 
 @main.route('/submit_application', methods=['POST'])
@@ -93,6 +110,7 @@ def submit_application():
     expected_payment = request.form['expected_payment']
     cover_letter = request.form['cover_letter']
     other_details = request.form['other_details']
+
     if not expected_payment or not cover_letter:
         flash('Expected payment and cover letter cannot be empty', 'error')
         return render_template('job_application.html')
@@ -102,8 +120,8 @@ def submit_application():
     user_job = UserJob.query.filter_by(user_id=current_user.id).first()
     if user_job:
         user_job.status = 'Accepted'
-    db.session.commit()
-    
+        db.session.commit()
+
     flash('Application successful!', 'success')
-    
+
     return render_template('profile.html', name=current_user.name)
