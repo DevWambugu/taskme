@@ -25,8 +25,8 @@ def jobs_applied():
         pass
     else:
         applied_jobs = UserJob.query.filter_by(user_id=current_user.id).all()  # Retrieve all UserJob objects for the current user
-        applied_jobs_applied = [job for job in applied_jobs if job.status == 'Applied'] # Filter applied jobs
-        applied_jobs_declined = [job for job in applied_jobs if job.status == 'Declined'] # Filter declined jobs
+        applied_jobs_applied = [user_job.job.title for user_job in applied_jobs if user_job.status == 'Accepted' or user_job.status == 'Applied'] # Filter applied jobs
+        applied_jobs_declined = [user_job.job.title for user_job in applied_jobs if user_job.status == 'Declined'] # Filter declined jobs
         return render_template('jobs_applied.html', applied_jobs_applied=applied_jobs_applied, applied_jobs_declined=applied_jobs_declined)
 
 @main.route('/decline_job/<int:job_id>', methods=['POST'])
@@ -94,6 +94,12 @@ def apply_job(job_id):
         existing_user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
         if existing_user_job:
             flash('You have already applied for this job.')
+            jobs = Job.query.all()
+            return render_template('listing_page.html', jobs=jobs)
+        else:
+            return render_template('job_application.html')
+
+        '''
         else:
             # Create a new UserJob instance
             new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied')
@@ -102,7 +108,7 @@ def apply_job(job_id):
             db.session.commit()
             flash('You have successfully applied for the job.')
 
-    return render_template('job_application.html')
+    return render_template('job_application.html')'''
 
 @main.route('/submit_application', methods=['POST'])
 @login_required

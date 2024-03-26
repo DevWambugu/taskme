@@ -53,14 +53,14 @@
             <h2>Applied Jobs:</h2>
             <ul>
                 {% for job in applied_jobs_applied %}
-                    <li>{{ job.status }}</li>
+                    <li>{{ job }}</li>
                 {% endfor %}
             </ul>
 
             <h2>Declined Jobs:</h2>
             <ul>
                 {% for job in applied_jobs_declined %}
-                    <li>{{ job.status }}</li>
+                    <li>{{ job }}</li>
                 {% endfor %}
             </ul>
             {% endblock %}
