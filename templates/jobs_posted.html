@@ -65,7 +65,9 @@
             <!-- Job Listings -->
             <ul class="job-listing">
                 {% for job in jobs %}
-                    <li>{{ job.title }} - {{ job.category }}</li>
+                    <li>{{ job.title }} - {{ job.category }}
+                        <a href="{{ url_for('main.job_applicants', job_id=job.id) }}">View Applicants</a>
+                    </li>
                 {% endfor %}
             </ul>
             {% endblock %}
