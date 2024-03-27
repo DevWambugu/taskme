@@ -101,7 +101,7 @@ def job_applicants(job_id):
     if job.user_id != current_user.id:
         # Ensure that only the user who posted the job can view the applicants
         flash('Only the employer can view this.', 'error')
-        # return redirect(url_for('main.jobs_posted'))
+        #return redirect(url_for('main.jobs_posted'))
 
     applicants = UserJob.query.filter_by(job_id=job_id, status='Applied').all()
     return render_template('job_applicants.html', job=job, applicants=applicants)
@@ -120,19 +120,18 @@ def apply_job(job_id):
             flash('You have already applied for this job.')
             jobs = Job.query.all()
             return render_template('listing_page.html', jobs=jobs)
-        else:
-            return render_template('job_application.html')
+        #else:
+        #    return render_template('job_application.html')
 
-        '''
         else:
             # Create a new UserJob instance
-            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied')
+            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Pending')
             # Add it to the database session
             db.session.add(new_user_job)
             db.session.commit()
             flash('You have successfully applied for the job.')
 
-    return render_template('job_application.html')'''
+            return render_template('job_application.html')
 
 @main.route('/submit_application', methods=['POST'])
 @login_required
