@@ -10,11 +10,36 @@
 </head>
 
 <style>
-    .container.has-text-left {
-        position: absolute;
-        top: 100px;
-        left: 50px;
-    }
+/* Center the job listings */
+.job-listing {
+    list-style-type: none;
+    padding: 0;
+    text-align: center; /* Center the job listings */
+}
+
+/* Style for each job item */
+.job-listing li {
+    margin-bottom: 20px; /* Add some space between each job item */
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    padding: 20px; /* Add padding around each job item */
+    display: inline-block; /* Display job items inline */
+}
+
+/* Style for job titles */
+.job-listing li a {
+    text-decoration: none;
+    color: #0366d6;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+/* Change color of job title on hover */
+.job-listing li a:hover {
+    color: #0645AD;
+}
+
 </style>
 
 <body>
@@ -65,7 +90,7 @@
             <!-- Job Listings -->
             <ul class="job-listing">
                 {% for job in jobs %}
-                    <li>{{ job.title }} - {{ job.category }}</li>
+                <li><a href="/job_applications/{{ job.id }}">{{ job.title }}</a> - {{ job.category }}</li>
                 {% endfor %}
             </ul>
             {% endblock %}

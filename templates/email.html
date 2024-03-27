@@ -1,0 +1,82 @@
+<!-- job_applications.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .application {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .application h2 {
+            margin-top: 0;
+        }
+        .application p {
+            margin: 5px 0;
+        }
+        .email-form {
+            margin-top: 20px;
+        }
+        .email-form input[type="text"],
+        .email-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .email-form input[type="submit"] {
+            background-color: #0366d6;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .email-form input[type="submit"]:hover {
+            background-color: #0645AD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Job Applications</h1>
+        {% for application in job_applications %}
+        <div class="application">
+            <h2>{{ application.applicant_name }}</h2>
+            <p>Email: {{ application.applicant_email }}</p>
+            <p>Message: {{ application.message }}</p>
+            <form class="email-form" action="/send_email" method="post">
+                <input type="hidden" name="recipient_email" value="{{ application.applicant_email }}">
+                <input type="text" name="subject" placeholder="Subject" required>
+                <textarea name="message" rows="4" placeholder="Message" required></textarea>
+                <input type="submit" value="Send Email">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
