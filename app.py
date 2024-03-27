@@ -103,7 +103,7 @@ def job_applicants(job_id):
         flash('Only the employer can view this.', 'error')
         #return redirect(url_for('main.jobs_posted'))
 
-    applicants = UserJob.query.filter_by(job_id=job_id, status='Applied').all()
+    applicants = UserJob.query.filter((UserJob.job_id == job_id) & ((UserJob.status == 'Applied') | (UserJob.status == 'Accepted'))).all()
     return render_template('job_applicants.html', job=job, applicants=applicants)
 
 @main.route('/apply_job/<int:job_id>', methods=['POST'])
