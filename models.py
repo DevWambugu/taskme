@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from . import db
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 
 class User(db.Model, UserMixin):
@@ -12,6 +12,8 @@ class User(db.Model, UserMixin):
     last_name = Column(String(128), nullable=True)
     contact = Column(String(128), nullable=True)
     location = Column(String(128), nullable=True)
+
+    job_applications = relationship('JobApplication', backref='applicant')
     # places = db.relationship('Place', backref='user', cascade='all, delete, delete-orphan')
     # reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
     # applied_jobs = db.relationship('Job', secondary='user_job')
@@ -52,6 +54,10 @@ class AppliedJob(db.Model):
 
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    expected_payment = db.Column(db.String(100), nullable=False)
+    expected_payment = db.Column(Numeric(10, 2), nullable=False)
     cover_letter = db.Column(db.Text, nullable=False)
     other_details = db.Column(db.Text)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    user = relationship('User', backref='job_applicants')

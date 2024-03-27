@@ -84,12 +84,10 @@ def job_details(job_id):
 
 @main.route('/apply_job/<int:job_id>', methods=['POST'])
 def apply_job(job_id):
+    if not current_user.is_authenticated:
+        flash('Please log in to apply for jobs.', 'error')
+        return redirect(url_for('auth.login'))
     if current_user.is_authenticated:
-        # Check if the user is authenticated
-        if not current_user.is_authenticated:
-            flash('Please log in to apply for jobs.', 'error')
-            return redirect(url_for('auth.login'))
-
         # Check if the user has already applied for this job
         existing_user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
         if existing_user_job:
@@ -131,3 +129,10 @@ def submit_application():
     flash('Application successful!', 'success')
 
     return render_template('profile.html', name=current_user.name)
+
+@main.route('/job_applicants', methods=['GET'])
+@login_required
+def get_applications():
+    job_applications = JobApplication.query.all()
+    return render_template('job_applications.html', job_applications=job_applications)
+
