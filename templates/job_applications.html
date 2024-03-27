@@ -1,15 +1,18 @@
+<!-- job_applications.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Applications</title>
+    <title>Job Applications</title>
     <style>
         /* CSS Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
         .container {
             max-width: 800px;
@@ -17,62 +20,56 @@
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            background-color: #fff;
         }
         h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
         .application {
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            background-color: #fff;
+            background-color: #f9f9f9;
         }
         .application h2 {
             margin-top: 0;
+            color: #333;
         }
         .application p {
             margin: 5px 0;
+            color: #666;
         }
-        .send-email-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
+        .btn-send-email {
             background-color: #0366d6;
             color: #fff;
             border: none;
             border-radius: 5px;
+            padding: 10px 20px;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
         }
-        .send-email-btn:hover {
+        .btn-send-email:hover {
             background-color: #0645AD;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>All Applications</h1>
-        {% for application in all_applications %}
-        <div class="application" id="application{{ loop.index }}">
-            <h2>{{ application.applicant_name }}</h2>
-            <p>Cover Letter: {{ application.cover_letter }}</p>
-            <p>Phone Number: {{ application.phone_number }}</p>
-            <button class="send-email-btn" onclick="location.href='/send_email/{{ application.applicant_email }}'">Send Email</button>
+        <h1>Job Applications</h1>
+        {% for application in job_applications %}
+        <div class="application">
+            <h2>{{ application.applicant.name }}</h2>
+            <p><strong>Email:</strong> {{ application.applicant.email }}</p>
+            <p><strong>Cover Letter:</strong> {{ application.cover_letter }}</p>
+            <p><strong>Expected Payment:</strong> {{ application.expected_payment }}</p>
+            <p><strong>Other Details:</strong> {{ application.other_details }}</p>
+            <a href="/send_email/{{ application.applicant.email }}" class="btn-send-email">Send Email</a>
         </div>
         {% endfor %}
     </div>
-
-    <script>
-        // JavaScript for automatic scrolling
-        {% for application in all_applications %}
-        var element = document.getElementById("application{{ loop.index }}");
-        var offsetTop = element.offsetTop;
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
-        {% endfor %}
-    </script>
 </body>
 </html>
