@@ -26,8 +26,8 @@
         {% if messages %}
             <ul class="flash-messages">
                 {% for message in messages %}
+                {% if loop.index == 1 %}
                     <li class="flash-message">{{ message }}</li>
-                    {% break %}
                 {% endfor %}
             </ul>
         {% endif %}
