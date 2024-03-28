@@ -40,12 +40,17 @@
     <div class="column">
         <h3 class="title">Sign Up</h3>
         <div class="box">
-            {% with messages = get_flashed_messages() %} {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}. Go to
-                <a href="{{ url_for('auth.login') }}">login page</a>.
-            </div>
-            {% endif %} {% endwith %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="flash-messages">
+            {% for message in messages %}
+                {% if loop.index == 1 %}
+                    <li class="flash-message">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
             <form method="POST" action="/signup" id="signupForm">
                 <div class="field">
                     <div class="control">
@@ -92,6 +97,15 @@
                     Sign Up
                 </button>
             </form>
+            <script>
+                // Fade out flashed messages after 4 seconds
+                setTimeout(function() {
+                    var flashMessages = document.querySelectorAll('.flash-message');
+                    flashMessages.forEach(function(message) {
+                        message.style.opacity = '0';
+                    });
+                }, 2500);
+            </script>
         </div>
     </div>
 </div>

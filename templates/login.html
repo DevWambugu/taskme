@@ -25,9 +25,17 @@
     <div class="column is-4 is-offset-4">
         <h3 class="title">Login</h3>
         <div class="box">
-            {% with messages = get_flashed_messages() %} {% if messages %}
-            <div class="notification is-danger">{{ messages[0] }}</div>
-            {% endif %} {% endwith %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+                {% if loop.index == 1 %}
+                    <li class="flash-message">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
             <form method="POST" action="/login" id="loginForm">
                 <div class="field">
                     <div class="control">
@@ -67,5 +75,14 @@
             </form>
         </div>
     </div>
+    <script>
+        // Fade out flashed messages after 4 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+            });
+        }, 1500);
+    </script>
     {% endblock %}
 </div>    

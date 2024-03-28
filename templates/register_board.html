@@ -1,17 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-    <ul class="flash-messages">
-        {% for message in messages %}
-            {% if loop.index == 1 %}
-                <li class="flash-message">{{ message }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-{% endif %}
-{% endwith %}
     <div class="container">
         <h1 class="title">Register Job</h1>
         <form method="POST" action="{{ url_for('main.register_board') }}" style="background-color: #f2f2f2; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
@@ -53,13 +42,4 @@
             </div>
         </form>
     </div>
-    <script>
-        // Fade out flashed messages after 4 seconds
-        setTimeout(function() {
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-            });
-        }, 4000);
-    </script>
 {% endblock %}

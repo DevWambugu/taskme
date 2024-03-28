@@ -1,108 +1,148 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jobs Posted</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
-</head>
-
-<style>
-    .container.has-text-left {
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
+    />
+    <style>
+      /* Your existing CSS styles */
+      .container.has-text-left {
         position: absolute;
-        top: 80px;
-        left: 80px;
-    }
-
-    .centered-title {
+        top: 100px;
+        left: 50px;
+      }
+      #filter-form button {
+        background-color: #008e79;
+        color: white;
+        width: 120px;
+        padding: 10px;
+        margin: 10px;
+        border: 0px;
+        border-radius: 10px;
+        box-shadow: 4px 4px 6px rgb(189, 189, 189);
+      }
+      select {
+        background-color: white;
         color: black;
-        font-size: 24px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-</style>
+        width: 160px;
+        padding: 10px;
+        border: 0.4px solid #00d1b2;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 4px 4px 4px rgb(189, 189, 189);
+      }
+      .filter {
+        display: flex;
+        padding-top: 8px;
+        background-color: white;
+        border-radius: 10px;
+        height: 10vh;
+      }
+      .job-listing a {
+        position: relative;
+        background: rgb(212, 216, 216);
+        background: linear-gradient(
+          180deg,
+          rgba(212, 216, 216, 1) 0%,
+          rgba(140, 147, 144, 1) 100%
+        );
+        color: black;
+        border: 0.4px solid #6f7171;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      li {
+        height: 60px;
+        width: 100%;
+        margin-top: 10px;
+        border: 0.4px solid #008e79;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      h1 {
+        color: black;
+        margin: 12px;
+      }
+      html,
+      body {
+        background-color: #00d1b2;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
 
-<body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class="flash-messages">
-            {% for message in messages %}
-                {% if loop.index == 1 %}
-                    <li class="flash-message">{{ message }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
+  <body>
     <section class="hero is-primary is-fullheight">
+      <div class="hero-head">
+        <nav class="navbar">
+          <div class="container">
+            <div id="navbarMenuHeroA" class="navbar-menu">
+              <div class="navbar-end">
+                <a href="{{ url_for('main.index') }}" class="navbar-item">
+                  Home
+                </a>
+                <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
+                  Jobs Posted
+                </a>
+                <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
+                  Jobs Applied
+                </a>
+                <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                  Profile
+                </a>
+                <a href="{{ url_for('main.about_us') }}" class="navbar-item">
+                    About Us
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
 
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
-                                Jobs Posted
-                            </a>
-                            <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
-                                Jobs Applied
-                            </a>
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
-                            </a>
-                            <a href="{{ url_for('main.about_us') }}" class="navbar-item">
-                                About Us
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
+      <div class="hero-body">
         <div class="container has-text-left">
-            {% block content %}
-            <h1 class="centered-title">Job Listings</h1>
-
+          {% block content %}
+          <div class="filter">
+            <div>
+              <h1>Job Listings</h1>
+            </div>
             <!-- Category Filter -->
-            <form id="filter-form">
+            <div>
+              <form id="filter-form">
                 <label for="category-filter">Filter by Category:</label>
                 <select id="category-filter" name="category">
-                    <option value="">All Categories</option>
-                    {% for category in categories %}
-                        <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
-                    {% endfor %}
+                  <option value="">All Categories</option>
+                  {% for category in categories %}
+                  <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                  {% endfor %}
                 </select>
                 <button type="submit">Filter</button>
-            </form>
+              </form>
+            </div>
+          </div>
 
-            <!-- Job Listings -->
-            <ul class="job-listing">
-                {% for job in jobs %}
-                    <li>{{ job.title }} - {{ job.category }}
-                        <a href="{{ url_for('main.job_applicants', job_id=job.id) }}">View Applicants</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            {% endblock %}
+          <!-- Job Listings -->
+          <ul class="job-listing">
+            {% for job in jobs %}
+            <li>
+              {{ job.title }} - {{ job.category }}
+              <a href="{{ url_for('main.job_applicants', job_id=job.id) }}">View Applicants</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endblock %}
         </div>
+      </div>
     </section>
-    <script>
-        // Fade out flashed messages after 4 seconds
-        setTimeout(function() {
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-            });
-        }, 2000);
-    </script>
-</body>
-
+  </body>
 </html>

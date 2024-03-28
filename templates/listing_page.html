@@ -1,41 +1,50 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Job Listings</title>
-    <style>
-        .job-title {
-            font-size: 20px;
-            color: #333;
-            font-weight: bold;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .job-category {
-            font-size: 16px;
-            color: #666;
-        }
-
-        .job-title:hover {
-            color: #007bff;
-        }
-    </style>
-</head>
-
-<body>
+{% block content %}
+<style>
+    /* Your existing CSS styles */
+    .container.has-text-left {
+      position: absolute;
+      top: 100px;
+      left: 50px;
+    }
+    #filter-form button {
+      background-color: #008e79;
+      color: white;
+      width: 120px;
+      padding: 10px;
+      margin: 10px;
+      border: 0px;
+      border-radius: 10px;
+      box-shadow: 4px 4px 6px rgb(189, 189, 189);
+    }
+    select {
+      background-color: white;
+      color: black;
+      width: 160px;
+      padding: 10px;
+      border: 0.4px solid #00d1b2;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 4px 4px 4px rgb(189, 189, 189);
+    }
+    .filter {
+      display: flex;
+      padding-top: 8px;
+      background-color: white;
+      border-radius: 10px;
+      height: 10vh;
+    }
+    /* Your existing CSS styles */
+  </style>
+  
     <div class="container">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul class="flash-messages">
             {% for message in messages %}
-                {% if loop.index == 1 %}
-                    <li class="flash-message">{{ message }}</li>
-                {% endif %}
+            <li class="flash-message">{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -48,7 +57,7 @@
             <select id="category-filter" name="category">
                 <option value="">All Categories</option>
                 {% for category in categories %}
-                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
                 {% endfor %}
             </select>
             <button type="submit">Filter</button>
@@ -57,21 +66,10 @@
         <!-- Job Listings -->
         <ul class="job-listing" style="padding: 0; margin-left: 0 !important;">
             {% for job in jobs %}
-                <li style="text-align: center; margin-bottom: 20px;">
-                    <a href="{{ url_for('main.job_details', job_id=job.id) }}" class="job-title">{{ job.title }}</a> - <span class="job-category">{{ job.category }}</span>
-                </li>
+            <li>
+                <a href="{{ url_for('main.job_details', job_id=job.id) }}">{{ job.title }} - {{ job.category }}</a>
+            </li>
             {% endfor %}
         </ul>
     </div>
-    <script>
-        // Fade out flashed messages after 4 seconds
-        setTimeout(function() {
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-            });
-        }, 2000);
-    </script>
-</body>
-
-</html>
+{% endblock %}
