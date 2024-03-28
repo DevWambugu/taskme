@@ -57,7 +57,7 @@
 <body>
     <div class="container">
         <h1>Job Application Form</h1>
-        <form action="/submit_application" method="post">
+        <form action="/submit_application/<int:job_id>" method="post">
                         
             <label for="cover_letter">Cover Letter:</label><br>
             <textarea id="cover_letter" name="cover_letter" rows="4" cols="50"></textarea><br><br>
