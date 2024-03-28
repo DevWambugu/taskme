@@ -12,12 +12,29 @@
 <style>
     .container.has-text-left {
         position: absolute;
-        top: 100px;
-        left: 50px;
+        top: 80px;
+        left: 80px;
+    }
+
+    .centered-title {
+        color: black;
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
     }
 </style>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li class="flash-message">{{ message }}</li>
+                    {% break %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <section class="hero is-primary is-fullheight">
 
         <div class="hero-head">
@@ -37,6 +54,9 @@
                             <a href="{{ url_for('main.profile') }}" class="navbar-item">
                                 Profile
                             </a>
+                            <a href="{{ url_for('main.about_us') }}" class="navbar-item">
+                                About Us
+                            </a>
                             <a href="{{ url_for('auth.logout') }}" class="navbar-item">
                                 Logout
                             </a>
@@ -48,7 +68,7 @@
 
         <div class="container has-text-left">
             {% block content %}
-            <h1>Job Listings</h1>
+            <h1 class="centered-title">Job Listings</h1>
 
             <!-- Category Filter -->
             <form id="filter-form">
@@ -73,6 +93,15 @@
             {% endblock %}
         </div>
     </section>
+    <script>
+        // Fade out flashed messages after 4 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+            });
+        }, 2000);
+    </script>
 </body>
 
 </html>

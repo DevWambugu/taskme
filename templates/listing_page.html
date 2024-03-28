@@ -1,86 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Job Listing</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        select, button {
-            padding: 10px;
-            font-size: 16px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+{% extends "base.html" %}
 
-        /* Category Filter */
-        #category-filter {
-            margin-right: 10px;
-        }
-
-        /* Job Listings */
-        .job-listing {
-            padding: 0;
-        }
-    </style>
-</head>
-<body>
+{% block content %}
     <div class="container">
-        <h1>Job Listing</h1>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+            <li class="flash-message">{{ message }}</li>
+            {% break %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <h1 style="text-align: center; color: black; margin-top: -50px; font-size: 24px;">Job Listing</h1>
 
         <!-- Category Filter -->
-        <form id="filter-form">
+        <form id="filter-form" style="margin-bottom: 10px; margin-left: 0 !important;">
             <label for="category-filter">Filter by Category:</label>
             <select id="category-filter" name="category">
                 <option value="">All Categories</option>
                 {% for category in categories %}
-                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
                 {% endfor %}
             </select>
             <button type="submit">Filter</button>
         </form>
 
         <!-- Job Listings -->
-        <ul class="job-listing">
+        <ul class="job-listing" style="padding: 0; margin-left: 0 !important;">
             {% for job in jobs %}
-                <li>
-                    <a href="{{ url_for('main.job_details', job_id=job.id) }}">{{ job.title }} - {{ job.category }}</a>
-                </li>
+            <li>
+                <a href="{{ url_for('main.job_details', job_id=job.id) }}">{{ job.title }} - {{ job.category }}</a>
+            </li>
             {% endfor %}
         </ul>
     </div>
-
     <script>
-        document.getElementById('filter-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
-            var category = document.getElementById('category-filter').value;
-            window.location.href = '/?category=' + encodeURIComponent(category); // Redirect with category filter
-        });
+        // Fade out flashed messages after 4 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+            });
+        }, 4000);
     </script>
-</body>
-</html>
+{% endblock %}

@@ -10,6 +10,10 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
+@main.route('/about_us')
+def about_us():
+    return render_template('about.html')
+
 @main.route('/jobs/posted')
 @login_required
 def jobs_posted():
@@ -62,16 +66,22 @@ def register_board():
         price = request.form.get('price')
         category = request.form.get('category')
 
-        # Save form data to a database
-        post_job = Job(title=title, description=description, price=price, category=category)
-        db.session.add(post_job)
-        db.session.commit()
+        # Ensure user is logged in before creating the job
+        if current_user.is_authenticated:
 
-        # FLash success message
-        flash('Job Posted Successfully'), 200
+            # Create the job with the user_id set to the current user's ID
+            post_job = Job(title=title, description=description, price=price, category=category, user_id=current_user.id)
+            db.session.add(post_job)
+            db.session.commit()
 
-        # Redirect to jobs_posted.html
-        return redirect(url_for('main.jobs_posted'))
+            # FLash success message
+            flash('Job Posted Successfully', 'success')
+
+            # Redirect to jobs_posted.html
+            return redirect(url_for('main.jobs_posted'))
+        else:
+            flash('Please log in to post a job', 'error')
+            return redirect(url_for('main.jobs_posted'))
     else:
         # Render the form for GET requests
         return render_template('register_board.html')
@@ -81,6 +91,24 @@ def job_details(job_id):
     # Retrieve the job details from the database
     job = Job.query.get_or_404(job_id)
     return render_template('job_details.html', job=job)
+
+@main.route('/applicant_details/<int:job_id>')
+def applicant_details(job_id):
+    # Retrieve the applicant details from the database
+    application = Application.query.get_or_404(job_id)
+    return render_template('job_applicants.html', application=application)
+
+@main.route('/jobs/<int:job_id>/applicants')
+@login_required
+def job_applicants(job_id):
+    job = Job.query.get_or_404(job_id)
+    if job.user_id != current_user.id:
+        # Ensure that only the user who posted the job can view the applicants
+        flash('Only the employer can view this.', 'error')
+        #return redirect(url_for('main.jobs_posted'))
+
+    applicants = UserJob.query.filter((UserJob.job_id == job_id) & ((UserJob.status == 'Applied') | (UserJob.status == 'Accepted'))).all()
+    return render_template('job_applicants.html', job=job, applicants=applicants)
 
 @main.route('/apply_job/<int:job_id>', methods=['POST'])
 def apply_job(job_id):
@@ -94,19 +122,18 @@ def apply_job(job_id):
             flash('You have already applied for this job.')
             jobs = Job.query.all()
             return render_template('listing_page.html', jobs=jobs)
-        else:
-            return render_template('job_application.html')
+        #else:
+        #    return render_template('job_application.html')
 
-        '''
         else:
             # Create a new UserJob instance
-            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied')
+            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Pending')
             # Add it to the database session
             db.session.add(new_user_job)
             db.session.commit()
             flash('You have successfully applied for the job.')
 
-    return render_template('job_application.html')'''
+            return render_template('job_application.html')
 
 @main.route('/submit_application', methods=['POST'])
 @login_required

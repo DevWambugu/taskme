@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,3 +16,19 @@
     </ul>
 </body>
 </html>
+=======
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container has-text-centered">
+    <h1 class="title" style="margin-top: -280px; color: black;">Applicants for "{{ job.title }}"</h1>
+</div>
+<div class="container">
+    <ul>
+        {% for applicant in applicants %}
+            <li>{{ applicant.user.name }} - {{ applicant.user.email }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+>>>>>>> 9bc9152dc1de93379ec904ae9ae4cbcb1eccb319

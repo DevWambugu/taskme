@@ -63,6 +63,16 @@
     </style>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li class="flash-message">{{ message }}</li>
+                    {% break %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <div class="job-details">
         <h1>{{ job.title }}</h1>
         <p>{{ job.description }}</p>
@@ -78,5 +88,14 @@
             <button type="submit">Decline</button>
         </form>
     </div>
+    <script>
+        // Fade out flashed messages after 4 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+            });
+        }, 2000);
+    </script>
 </body>
 </html>

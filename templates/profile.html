@@ -1,23 +1,92 @@
 {% extends "base.html" %}
+<head>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
+  />
+  <style>
+    /*---------------sign up----------------------*/
+    section {
+      height: 400px;
+    }
 
+    .navbar {
+      background-color: #00d1b2;
+    }
+    .navbar-item {
+      color: white;
+    }
+    .container {
+      max-width: 1300px;
+      margin: auto;
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    #postJobBtn {
+      background-color: #00d1b2;
+      padding: 10px;
+      width: 120px;
+      color: white;
+      border: 0.4px solid #00d1b2;
+      border-radius: 10px;
+      box-shadow: 4px 4px 4px gray;
+    }
+    h1 {
+      text-align: left;
+    }
+    .field {
+      padding: 10px;
+      margin-top: 10px;
+    }
+    input {
+      width: 180px;
+      padding: 10px;
+      border: 0.4px solid #00d1b2;
+      width: 320px;
+      border-radius: 10px;
+      margin: 10px;
+    }
+    /*---------------login----------------------*/
+
+    #applyJobBtn {
+      background-color: white;
+      color: black;
+      width: 120px;
+      padding: 10px;
+      border: 0.4px solid #00d1b2;
+
+      border: 1px solid black;
+      border-radius: 10px;
+      box-shadow: 4px 4px 4px gray;
+    }
+    button:hover {
+      background-color: #00d1b2;
+    }
+    .field {
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
 {% block content %}
-<h1 class="title">
-  Welcome, {{ name }}!
-</h1>
-<div class="centered-content">
-<div class="buttons">
-  <button id="applyJobBtn">Apply Job</button>
-  <button id="postJobBtn">Post Job</button>
-</div>
-</div>
+<section>
+  <div class="centered-content">
+    <h1 class="title">Welcome, {{ name }}!</h1>
+    <div class="buttons">
+      <button id="applyJobBtn">Apply Job</button>
+      <button id="postJobBtn">Post Job</button>
+    </div>
+  </div>
+</section>
+
 <script>
-  document.getElementById('applyJobBtn').addEventListener('click', function() {
-    window.location.href = '/listing_page';
+  document.getElementById("applyJobBtn").addEventListener("click", function () {
+    window.location.href = "/listing_page";
   });
 
-document.getElementById('postJobBtn').addEventListener('click', function() {
-    window.location.href = '/register_board';
-});
-
+  document.getElementById("postJobBtn").addEventListener("click", function () {
+    window.location.href = "/register_board";
+  });
 </script>
 {% endblock %}

@@ -8,20 +8,30 @@
     <title>Taskme Homepage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
     <style>
-    .centered-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    }
-
-    .buttons {
-      margin-top: 20px;
-      }
-    </style>
+        .centered-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        }
+    
+        .buttons {
+          margin-top: 20px;
+          }
+        </style>
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li class="flash-message">{{ message }}</li>
+                    {% break %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <section class="hero is-primary is-fullheight">
 
         <div class="hero-head">
@@ -41,6 +51,9 @@
                             </a>
                             <a href="{{ url_for('main.profile') }}" class="navbar-item">
                                 Profile
+                            </a>
+                            <a href="{{ url_for('main.about_us') }}" class="navbar-item">
+                                About Us
                             </a>
                             {% endif %}
                             {% if not current_user.is_authenticated %}
@@ -63,7 +76,7 @@
         </div>
 
         <div class="hero-body">
-            <div class="container has-text-centered">
+            <div class="container">
                {% block content %}
                {% endblock %}
             </div>
@@ -110,6 +123,13 @@
             // If all validations pass, the form will be submitted
             return true;
         });
+            // Fade out flashed messages after 4 seconds
+        setTimeout(function() {
+            var flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(function(message) {
+                message.style.opacity = '0';
+            });
+        }, 4000);
     </script>
 </body>
 
