@@ -26,16 +26,16 @@
 
 <body>
     {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flash-messages">
-                {% for message in messages %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
                 {% if loop.index == 1 %}
                     <li class="flash-message">{{ message }}</li>
-                    
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
     <section class="hero is-primary is-fullheight">
 
         <div class="hero-head">
