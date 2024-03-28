@@ -18,8 +18,14 @@ def about_us():
 @login_required
 def jobs_posted():
     # Retrieve all posted jobs from the database
-    jobs = Job.query.all()
-    return render_template('jobs_posted.html', jobs=jobs) # Pass jobs data to the template
+#    jobs = Job.query.all()
+    selected_category = request.args.get('category')
+    if selected_category and selected_category != 'All Categories':
+        jobs = Job.query.filter_by(category=selected_category).all()
+    else:
+        jobs = Job.query.all()
+    categories = {job.category for job in Job.query.all()}
+    return render_template('jobs_posted.html', jobs=jobs, categories=categories, selected_category=selected_category)
 
 @main.route('/jobs/applied', methods=['GET', 'POST'])
 def jobs_applied():
