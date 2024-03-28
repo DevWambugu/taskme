@@ -1,6 +1,32 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Listings</title>
+    <style>
+        .job-title {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .job-category {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .job-title:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
     <div class="container">
         <!-- Flash Messages -->
         {% with messages = get_flashed_messages() %}
@@ -30,8 +56,8 @@
         <!-- Job Listings -->
         <ul class="job-listing" style="padding: 0; margin-left: 0 !important;">
             {% for job in jobs %}
-            <li>
-                <a href="{{ url_for('main.job_details', job_id=job.id) }}">{{ job.title }} - {{ job.category }}</a>
+            <li style="text-align: center; margin-bottom: 20px;">
+                <a href="{{ url_for('main.job_details', job_id=job.id) }}" class="job-title">{{ job.title }}</a> - <span class="job-category">{{ job.category }}</span>
             </li>
             {% endfor %}
         </ul>
@@ -43,6 +69,8 @@
             flashMessages.forEach(function(message) {
                 message.style.opacity = '0';
             });
-        }, 4000);
+        }, 2000);
     </script>
-{% endblock %}
+</body>
+
+</html>

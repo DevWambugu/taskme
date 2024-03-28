@@ -6,61 +6,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jobs Applied</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .column {
+            width: 48%;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 2%;
+        }
+
+        .column:last-child {
+            margin-right: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <section class="hero is-primary is-fullheight">
+    <div class="header">
+        <h1>Jobs Applied</h1>
+    </div>
 
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
-                                Jobs Posted
-                            </a>
-                            <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
-                                Jobs Applied
-                            </a>
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
-                            </a>
-                            <a href="{{ url_for('main.about_us') }}" class="navbar-item">
-                                About Us
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <div class="container has-text-centered">
-            <h1 style="color: black; font-size: 24px; margin-top: -280px;">Jobs Applied</h1>
-        </div>
-
-        <div class="container has-text-left">
-            <h2 style="color: black; margin-top: -520px;">Applied Jobs:</h2>
+    <div class="container">
+        <div class="column">
+            <h2>Applied Jobs:</h2>
             <ul>
                 {% for job in applied_jobs_applied %}
                     <li>{{ job }}</li>
                 {% endfor %}
             </ul>
+        </div>
 
-            <h2 style="color: black;">Declined Jobs:</h2>
+        <div class="column">
+            <h2>Declined Jobs:</h2>
             <ul>
                 {% for job in applied_jobs_declined %}
                     <li>{{ job }}</li>
                 {% endfor %}
             </ul>
         </div>
-    </section>
+    </div>
 </body>
 
 </html>
