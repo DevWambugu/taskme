@@ -45,20 +45,25 @@
             <h1 style="color: black; font-size: 24px; margin-top: -280px;">Jobs Applied</h1>
         </div>
 
-        <div class="container has-text-left">
-            <h2 style="color: black; margin-top: -520px;">Applied Jobs:</h2>
-            <ul>
-                {% for job in applied_jobs_applied %}
-                    <li>{{ job }}</li>
-                {% endfor %}
-            </ul>
-
-            <h2 style="color: black;">Declined Jobs:</h2>
-            <ul>
-                {% for job in applied_jobs_declined %}
-                    <li>{{ job }}</li>
-                {% endfor %}
-            </ul>
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half has-text-left">
+                    <h2 style="color: black; margin-top: -520px;">Applied Jobs:</h2>
+                    <ul>
+                        {% for job in applied_jobs_applied %}
+                            <li>{{ job }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="column is-half has-text-right">
+                    <h2 style="color: black; margin-top: -520px;">Declined Jobs:</h2>
+                    <ul>
+                        {% for job in applied_jobs_declined %}
+                            <li>{{ job }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 </body>
