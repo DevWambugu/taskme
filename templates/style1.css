@@ -1,0 +1,93 @@
+/*---------------sign up----------------------*/
+body {
+    background-color: #00d1b2;
+  }
+  .flexbox {
+    background-color: #00d1b2;
+    display: flex;
+    border: 1px black;
+  
+    box-shadow: 6px 2px 20px gray;
+    width: 80%;
+    height: 700px;
+    margin: 0 auto;
+  }
+  .column1 {
+    flex: 1;
+    width: 50%;
+    height: 100%;
+  }
+  .logo {
+    width: 150px;
+    height: 80px;
+  }
+  img {
+    padding: 10px;
+    height: 680px;
+    clip: auto;
+  }
+  .hero-image {
+    height: 300px;
+  }
+  .hero {
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .column {
+    background-color: white;
+    padding: 10px;
+    padding-top: 100px;
+    margin: 10px;
+    align-items: center;
+    text-align: center;
+    width: 50%;
+    border-radius: 10px;
+  }
+  .button {
+    background-color: #00d1b2;
+    width: 120px;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 0;
+    box-shadow: 4px 4px 4px gray;
+    margin-bottom: 40px;
+  }
+  .field {
+    padding: 10px;
+    margin-top: 10px;
+  }
+  input {
+    width: 120px;
+    padding: 10px;
+    border: 0.4px solid #00d1b2;
+    width: 320px;
+    border-radius: 10px;
+  }
+  /*---------------login----------------------*/
+  
+  #applyJobBtn {
+    background-color: white;
+    color: black;
+    width: 120px;
+    padding: 10px;
+    border: 0.4px solid #00d1b2;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px gray;
+  }
+  
+  .field {
+    padding: 10px;
+    margin-top: 10px;
+  }
+  input {
+    width: 120px;
+    padding: 10px;
+    border: 0.4px solid #00d1b2;
+    width: 320px;
+    border-radius: 10px;
+  }

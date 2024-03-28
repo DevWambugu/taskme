@@ -10,6 +10,10 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
+@main.route('/about_us')
+def about_us():
+    return render_template('about.html')
+
 @main.route('/jobs/posted')
 @login_required
 def jobs_posted():
