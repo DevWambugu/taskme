@@ -33,8 +33,9 @@
         {% if messages %}
         <ul class="flash-messages">
             {% for message in messages %}
-            {% if loop.index == 1 %}
-            <li class="flash-message">{{ message }}</li>
+                {% if loop.index == 1 %}
+                    <li class="flash-message">{{ message }}</li>
+                {% endif %}
             {% endfor %}
         </ul>
         {% endif %}
@@ -47,7 +48,7 @@
             <select id="category-filter" name="category">
                 <option value="">All Categories</option>
                 {% for category in categories %}
-                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                    <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
                 {% endfor %}
             </select>
             <button type="submit">Filter</button>
@@ -56,9 +57,9 @@
         <!-- Job Listings -->
         <ul class="job-listing" style="padding: 0; margin-left: 0 !important;">
             {% for job in jobs %}
-            <li style="text-align: center; margin-bottom: 20px;">
-                <a href="{{ url_for('main.job_details', job_id=job.id) }}" class="job-title">{{ job.title }}</a> - <span class="job-category">{{ job.category }}</span>
-            </li>
+                <li style="text-align: center; margin-bottom: 20px;">
+                    <a href="{{ url_for('main.job_details', job_id=job.id) }}" class="job-title">{{ job.title }}</a> - <span class="job-category">{{ job.category }}</span>
+                </li>
             {% endfor %}
         </ul>
     </div>
