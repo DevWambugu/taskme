@@ -28,9 +28,19 @@
                     <input type="checkbox" name="remember">
                     Remember me
                 </label>
+                <div class="field is-grouped is-grouped-right">
+                    <a href="{{ url_for('main.forgot_password') }}" class="forgot-password">Forgot Password</a> 
+                </div>
             </div>
             <button class="button is-block is-info is-large is-fullwidth">Login</button>
         </form>
     </div>
 </div>
 {% endblock %}
+
+<style>
+    /* Additional CSS for Forgot Password link */
+    .forgot-password {
+        margin-right: 10px; /* Adjust margin-right as needed */
+    }
+</style>

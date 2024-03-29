@@ -6,6 +6,10 @@ import time
 
 main = Blueprint('main', __name__)
 
+@main.route('/forgot_password')
+def forgot_password():
+    return render_template('forgot_password.html')
+
 @main.route('/')
 def index():
     return render_template('index.html')

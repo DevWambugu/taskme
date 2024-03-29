@@ -7,15 +7,33 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #008e79;
+            background-color: #00d1b2;
             margin: 0;
             padding: 0;
+        }
+        .navbar-container {
+            background-color: #00d1b2;
+            color: #fff; /* Change text color for navbar */
+            text-align: right;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .navbar-item {
+        text-decoration: none; /* Remove underline */
+        color: inherit; /* Inherit text color */
+        margin-right: 20px;
+        transition: background-color 0.3s;
+        }
+        .navbar-item:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Remove background color on hover */
+        border-radius: 5px;
         }
         .container {
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #ffffffea;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -41,7 +59,7 @@
 
         <div class="hero-head">
             <nav class="navbar">
-                <div class="container">
+                <div class="navbar-container">
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
                             <a href="{{ url_for('main.index') }}" class="navbar-item">
