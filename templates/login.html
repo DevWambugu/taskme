@@ -1,88 +1,36 @@
-{% extends "base.html" %} {% block content %}
-<head>
-    <link rel="stylesheet" href="style1.css" />
-    <style>
-               .flexbox {
-            display: flex;
-            align-items: center; /* Align items vertically */
-        }
+{% extends "base.html" %}
 
-        .column1 {
-            flex: 1; /* Take up 1/3 of the available space */
-            padding-right: 20px; /* Adjust as needed */
-        }
-
-        .column {
-            flex: 2; /* Take up 2/3 of the available space */
-            padding-left: 20px; /* Adjust as needed */
-        } 
-    </style>
-</head>
-<div class="flexbox">
-    <div class="column1">
-      <img src="../static/images/cleaningimage.jpg" alt="" />
-    </div>
-    <div class="column is-4 is-offset-4">
-        <h3 class="title">Login</h3>
-        <div class="box">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-        <ul class="flash-messages">
-            {% for message in messages %}
-                {% if loop.index == 1 %}
-                    <li class="flash-message">{{ message }}</li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
         {% endif %}
         {% endwith %}
-            <form method="POST" action="/login" id="loginForm">
-                <div class="field">
-                    <div class="control">
-                        <input
-                            class="input is-large"
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Your Email"
-                            autofocus=""
-                            required
-                        />
-                    </div>
+        <form method="POST" action="/login" id="loginForm">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" id="email" placeholder="Your Email" autofocus="" required>
                 </div>
+            </div>
 
-                <div class="field">
-                    <div class="control">
-                        <input
-                            class="input is-large"
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="Your Password"
-                            required
-                        />
-                    </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" id="password" placeholder="Your Password" required>
                 </div>
-                <div class="field">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
-                </div>
-                <button class="button is-block is-info is-large is-fullwidth">
-                    Login
-                </button>
-            </form>
-        </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" name="remember">
+                    Remember me
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
     </div>
-    <script>
-        // Fade out flashed messages after 4 seconds
-        setTimeout(function() {
-            var flashMessages = document.querySelectorAll('.flash-message');
-            flashMessages.forEach(function(message) {
-                message.style.opacity = '0';
-            });
-        }, 1500);
-    </script>
-    {% endblock %}
-</div>    
+</div>
+{% endblock %}

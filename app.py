@@ -133,7 +133,7 @@ def apply_job(job_id):
 
         else:
             # Create a new UserJob instance
-            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Pending')
+            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied')
             # Add it to the database session
             db.session.add(new_user_job)
             db.session.commit()
