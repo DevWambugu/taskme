@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     contact = Column(String(128), nullable=True)
     location = Column(String(128), nullable=True)
 
-    job_applications = relationship('JobApplication', backref='applicant')
+    job_applications = db.relationship('JobApplication', backref='applicant', lazy='dynamic')
     # places = db.relationship('Place', backref='user', cascade='all, delete, delete-orphan')
     # reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
     # applied_jobs = db.relationship('Job', secondary='user_job')
@@ -57,10 +57,12 @@ class AppliedJob(db.Model):
 
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
     expected_payment = db.Column(Numeric(10, 2), nullable=False)
     cover_letter = db.Column(db.Text, nullable=False)
     other_details = db.Column(db.Text)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
     user = relationship('User', backref='job_applicants')
+    job = db.relationship('Job', backref='job_applications')

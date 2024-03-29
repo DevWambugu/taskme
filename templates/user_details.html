@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Applicants</title>
+    <title>Applicant Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,10 +33,6 @@
             padding: 10px;
             background-color: #f9f9f9;
             border-radius: 5px;
-        }
-        li:hover {
-            background-color: #e0e0e0;
-            cursor: pointer; /* Add cursor pointer for hover effect */
         }
     </style>
 </head>
@@ -72,25 +68,23 @@
             </nav>
         </div>
 
-    <div class="container">
-        <h1>Applicants for "{{ job.title }}"</h1>
-        <ul>
-            {% for applicant in applicants %}
-                <!-- Pass the applicant's user ID as a parameter in the URL -->
-                <li>
-                    <a href="{{ url_for('main.user_details', user_id=applicant.user.id, job_id=job.id) }}">
-                        {{ applicant.user.name }} - {{ applicant.user.email }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <script>
-        function getApplicantDetails(userId) {
-            // Redirect to the route that handles fetching applicant details
-            window.location.href = "/applicant_details/" + userId;
-        }
-    </script>
+<div class="container">
+    <h1>{{ user.name }}'s Details</h1>
+    <p>Email: {{ user.email }}</p>
+{% if job_applications %}
+    <h2>Job Applications</h2>
+    <ul>
+        {% for application in job_applications %}
+            <li>
+                <strong>Expected Payment:</strong> {{ application.expected_payment }}<br>
+                <strong>Cover Letter:</strong> {{ application.cover_letter }}<br>
+                <strong>Other Details:</strong> {{ application.other_details }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No job applications found.</p>
+{% endif %}
+</div>
 </body>
 </html>

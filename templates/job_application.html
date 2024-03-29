@@ -58,7 +58,9 @@
     <div class="container">
         <h1>Job Application Form</h1>
         <form action="/submit_application" method="post">
-                        
+            <input type="hidden" id="job_title" name="job_title" value="{{ job.title }}">
+            <input type="hidden" id="job_id" name="job_id" value="{{ job.id }}">
+
             <label for="cover_letter">Cover Letter:</label><br>
             <textarea id="cover_letter" name="cover_letter" rows="4" cols="50"></textarea><br><br>
 

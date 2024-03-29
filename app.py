@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from . import db
-from .models import Job, UserJob, JobApplication
+from .models import Job, UserJob, JobApplication, User
 from flask_login import login_required, current_user
 import time
 
@@ -98,11 +98,32 @@ def job_details(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('job_details.html', job=job)
 
-@main.route('/applicant_details/<int:job_id>')
-def applicant_details(job_id):
-    # Retrieve the applicant details from the database
-    application = Application.query.get_or_404(job_id)
-    return render_template('job_applicants.html', application=application)
+@main.route('/applicant_details/<int:job_application_id>')
+def applicant_details(job_application_id):
+    # Retrieve the job application details from the database
+    job_application = JobApplication.query.get_or_404(job_application_id)
+    
+    # Get the user corresponding to this job application
+    user = job_application.user
+    
+    if user is None:
+        # Handle the case where user is not found
+        flash('User not found for this job application.', 'error')
+        return redirect(url_for('main.index'))
+    
+    # Get all user jobs for this user
+    user_jobs = user.user_jobs if user.user_jobs else []
+    
+    # Find the user job corresponding to this job application
+    for user_job in user_jobs:
+        if user_job.status == 'Applied' or user_job.status == 'Accepted':
+            job = user_job.job
+            break
+    else:
+        # If no relevant user job found, handle the case here
+        job = None
+    
+    return render_template('job_applicants.html', job=job, job_application=job_application)
 
 @main.route('/jobs/<int:job_id>/applicants')
 @login_required
@@ -123,6 +144,7 @@ def apply_job(job_id):
         return redirect(url_for('auth.login'))
     if current_user.is_authenticated:
         # Check if the user has already applied for this job
+        job = Job.query.get_or_404(job_id)  # Fetch the job details
         existing_user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
         if existing_user_job:
             flash('You have already applied for this job.')
@@ -139,21 +161,35 @@ def apply_job(job_id):
             db.session.commit()
             flash('You have successfully applied for the job.')
 
-            return render_template('job_application.html')
+            return render_template('job_application.html', job=job)
 
 @main.route('/submit_application', methods=['POST'])
 @login_required
 def submit_application():
+    # Retrieving form data
     expected_payment = request.form['expected_payment']
     cover_letter = request.form['cover_letter']
     other_details = request.form['other_details']
+    job_title = request.form['job_title']
+    job_id = request.form['job_id']
 
+    # Validation
     if not expected_payment or not cover_letter:
         flash('Expected payment and cover letter cannot be empty', 'error')
         return render_template('job_application.html')
     
-    new_application = JobApplication(expected_payment=expected_payment, cover_letter=cover_letter, other_details=other_details)
+    # Creating a new JobApplication instance and assigning user_id
+    new_application = JobApplication(
+        job_id=job_id,
+        title=job_title,
+        expected_payment=expected_payment,
+        cover_letter=cover_letter, 
+        other_details=other_details,
+        user_id=current_user.id
+    )
     db.session.add(new_application)
+
+    # Updating the status of the UserJob to 'Accepted'
     user_job = UserJob.query.filter_by(user_id=current_user.id).first()
     if user_job:
         user_job.status = 'Accepted'
@@ -168,4 +204,23 @@ def submit_application():
 def get_applications():
     job_applications = JobApplication.query.all()
     return render_template('job_applications.html', job_applications=job_applications)
+
+@main.route('/user_details/<int:user_id>')
+def user_details(user_id):
+    # Retrieve the applicant details from the database
+    user = User.query.get_or_404(user_id)
+    job_id = request.args.get('job_id')
+
+    if job_id:
+        # Fetch the job details based on the provided job_id
+        job = Job.query.get_or_404(job_id)
+
+        # Fetch the query object associated with job_applications relationship for the current job
+        job_applications_query = user.job_applications.filter_by(job_id=job_id).all()
+    else:
+        # If no job id provided, fetch all job applications for the user
+        job = None
+        job_applications_query = []
+
+    return render_template('user_details.html', user=user, job_applications=job_applications_query, job=job)
 
