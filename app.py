@@ -40,7 +40,7 @@ def jobs_applied():
     else:
         applied_jobs = UserJob.query.filter_by(user_id=current_user.id).all()  # Retrieve all UserJob objects for the current user
         applied_jobs_applied = [user_job.job.title for user_job in applied_jobs if user_job.status == 'Accepted' or user_job.status == 'Applied'] # Filter applied jobs
-        applied_jobs_declined = [user_job.job.title for user_job in applied_jobs if user_job.status == 'Declined'] # Filter declined jobs
+        applied_jobs_declined = [user_job.job.title for user_job in applied_jobs if user_job.status == 'Pending'] # Filter declined jobs
         return render_template('jobs_applied.html', applied_jobs_applied=applied_jobs_applied, applied_jobs_declined=applied_jobs_declined)
 
 @main.route('/decline_job/<int:job_id>', methods=['POST'])
