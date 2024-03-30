@@ -7,59 +7,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jobs Applied</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <style>
+        /* Style for headers */
+        h1 {
+            color: black;
+            font-size: 36px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            margin-top: 20px; /* Adjust the margin as needed */
+        }
+
+        /* Style for job lists */
+        .job-list {
+            list-style-type: none;
+            padding: 0;
+            /*margin: 1000;*/
+            margin-bottom: 300px; /* Adjust the margin as needed */
+        }
+
+    
+        .job-list li {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+
+        .job-list li:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-list .applied {
+            background-color: #7fd8be;
+        }
+
+        .job-list .declined {
+            background-color: #ff9999;
+        }
+    </style>
 </head>
 
 <body>
     <section class="hero is-primary is-fullheight">
 
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
-                                Jobs Posted
-                            </a>
-                            <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
-                                Jobs Applied
-                            </a>
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
-                            </a>
-                            <a href="{{ url_for('main.about_us') }}" class="navbar-item">
-                                About Us
-                            </a>
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
         <div class="container has-text-centered">
-            <h1 style="color: black; font-size: 24px; margin-top: -280px;">Jobs Applied</h1>
+            <h1>Jobs Applied</h1>
         </div>
 
         <div class="container">
             <div class="columns">
-                <div class="column is-half has-text-left">
-                    <h2 style="color: black; margin-top: -520px;">Applied Jobs:</h2>
-                    <ul>
+                <div class="column is-half">
+                    <h2>Applied Jobs:</h2>
+                    <ul class="job-list">
                         {% for job in applied_jobs_applied %}
-                            <li>{{ job }}</li>
+                            <li class="applied">{{ job }}</li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="column is-half has-text-right">
-                    <h2 style="color: black; margin-top: -520px;">Declined Jobs:</h2>
-                    <ul>
+                <div class="column is-half">
+                    <h2>Declined Jobs:</h2>
+                    <ul class="job-list">
                         {% for job in applied_jobs_declined %}
-                            <li>{{ job }}</li>
+                            <li class="declined">{{ job }}</li>
                         {% endfor %}
                     </ul>
                 </div>
