@@ -55,7 +55,36 @@
 
 <body>
     <section class="hero is-primary is-fullheight">
+        <section class="hero is-primary is-fullheight">
 
+            <div class="hero-head">
+                <nav class="navbar">
+                    <div class="container">
+                        <div id="navbarMenuHeroA" class="navbar-menu">
+                            <div class="navbar-end">
+                                <a href="{{ url_for('main.index') }}" class="navbar-item">
+                                    Home
+                                </a>
+                                <a href="{{ url_for('main.jobs_posted') }}" class="navbar-item">
+                                    Jobs Posted
+                                </a>
+                                <a href="{{ url_for('main.jobs_applied') }}" class="navbar-item">
+                                    Jobs Applied
+                                </a>
+                                <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                                    Profile
+                                </a>
+                                <a href="{{ url_for('main.about_us') }}" class="navbar-item">
+                                    About Us
+                                </a>
+                                <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
         <div class="container has-text-centered">
             <h1>Jobs Applied</h1>
         </div>
