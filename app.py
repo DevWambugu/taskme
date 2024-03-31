@@ -251,4 +251,3 @@ def user_details(user_id):
         job_applications_query = []
 
     return render_template('user_details.html', user=user, job_applications=job_applications_query, job=job)
-
