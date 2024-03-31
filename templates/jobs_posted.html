@@ -79,6 +79,17 @@
   </head>
 
   <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+                {% if loop.index == 1 %}
+                    <li class="flash-message">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
     <section class="hero is-primary is-fullheight">
       <div class="hero-head">
         <nav class="navbar">
@@ -144,5 +155,14 @@
         </div>
       </div>
     </section>
+    <script>
+      // Fade out flashed messages after 4 seconds
+      setTimeout(function() {
+          var flashMessages = document.querySelectorAll('.flash-message');
+          flashMessages.forEach(function(message) {
+              message.style.opacity = '0';
+          });
+      }, 2500);
+  </script>
   </body>
 </html>
