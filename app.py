@@ -151,15 +151,15 @@ def applicant_details(job_application_id):
 @main.route('/jobs/<int:job_id>/applicants')
 @login_required
 def job_applicants(job_id):
-    job = Job.query.get_or_404(job_id)
-    if job.user_id != current_user.id:
+    job = Job.query.filter_by(id=job_id).first_or_404()
+    user_id = job.user_id
+    if user_id != current_user.id:
         # Ensure that only the user who posted the job can view the applicants
         flash('Only the employer can view this.', 'error')
         #return render_template('profile.html', name=current_user.name)
         return redirect(url_for('main.jobs_posted'))
-    else:
-        applicants = UserJob.query.filter((UserJob.job_id == job_id) & ((UserJob.status == 'Applied') | (UserJob.status == 'Accepted'))).all()
-        return render_template('job_applicants.html', job=job, applicants=applicants)
+    applicants = UserJob.query.filter((UserJob.job_id == job_id) & ((UserJob.status == 'Applied') | (UserJob.status == 'Accepted'))).all()
+    return render_template('job_applicants.html', job=job, applicants=applicants)
 
 @main.route('/apply_job/<int:job_id>', methods=['POST'])
 def apply_job(job_id):
