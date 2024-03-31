@@ -153,16 +153,17 @@
           </ul>
           {% endblock %}
         </div>
+        <script>
+          // Fade out flashed messages after 4 seconds
+          setTimeout(function() {
+              var flashMessages = document.querySelectorAll('.flash-message');
+              flashMessages.forEach(function(message) {
+                  message.style.opacity = '0';
+              });
+          }, 2500);
+      </script>
       </div>
     </section>
-    <script>
-      // Fade out flashed messages after 4 seconds
-      setTimeout(function() {
-          var flashMessages = document.querySelectorAll('.flash-message');
-          flashMessages.forEach(function(message) {
-              message.style.opacity = '0';
-          });
-      }, 2500);
-  </script>
+    
   </body>
 </html>
