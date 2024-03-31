@@ -24,12 +24,11 @@ class UserJob(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
     status = db.Column(db.String(20)) # Accepted or Declined
-    title = db.Column(db.String(20))
 
     # Define a backref from Job to access users
     user = relationship('User', backref='user_jobs')
-    job = relationship('Job', backref='user_jobs')
-    #job = relationship('Job')
+    #job = relationship('Job', backref='user_jobs')
+    job = relationship('Job')
 
     # Define a relationship with Job explicitly
     job = relationship('Job', backref='applied_users')
@@ -47,7 +46,7 @@ class Job(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     # Define a relationship with UserJob
-    user_jobs = relationship('UserJob', back_populates='job', cascade='all, delete-orphan')
+    # user_jobs = relationship('UserJob', backref='job', cascade='all, delete-orphan')
     # Define a relationship with User
     user = relationship('User', backref='jobs')
 
