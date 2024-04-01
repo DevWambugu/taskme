@@ -22,7 +22,6 @@ def about_us():
 @login_required
 def jobs_posted():
     # Retrieve all posted jobs from the database
-#    jobs = Job.query.all()
     selected_category = request.args.get('category')
     if selected_category and selected_category != 'All Categories':
         jobs = Job.query.filter_by(category=selected_category).all()
@@ -34,8 +33,6 @@ def jobs_posted():
 @main.route('/jobs/applied', methods=['GET', 'POST'])
 def jobs_applied():
     if request.method == 'POST':
-        # future possibility
-        # have a form for applying and declining
         pass
     else:
         applied_jobs = UserJob.query.filter_by(user_id=current_user.id).all()  # Retrieve all UserJob objects for the current user
@@ -47,15 +44,8 @@ def jobs_applied():
 def decline_job(job_id):
     from .models import UserJob, Job
     job = Job.query.get_or_404(job_id)
-    #job = Job.query.all()
     title = job.title
     # Fetch the UserJob entry to update the status
-    #job_title = request.form['title']
-    #job_id = request.form['job_id']
-    '''user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
-    if user_job:
-        user_job.status = 'Declined'
-        user_job.title = title'''
     existing_user_job = UserJob.query.filter_by(user_id=current_user.id, job_id=job_id).first()
     if existing_user_job:
         return redirect(url_for('main.jobs_applied'))
@@ -74,9 +64,6 @@ def profile():
 @main.route('/listing_page')
 def listing_page():
     # Retrieve all posted jobs from the database
-    #jobs = Job.query.all()
-    #return render_template('listing_page.html', jobs=jobs)
-
     selected_category = request.args.get('category')
     if selected_category and selected_category != 'All Categories':
         jobs = Job.query.filter_by(category=selected_category).all()
@@ -156,7 +143,6 @@ def job_applicants(job_id):
     if user_id != current_user.id:
         # Ensure that only the user who posted the job can view the applicants
         flash('Only the employer can view this.', 'error')
-        #return render_template('profile.html', name=current_user.name)
         return redirect(url_for('main.jobs_posted'))
     applicants = UserJob.query.filter((UserJob.job_id == job_id) & ((UserJob.status == 'Applied') | (UserJob.status == 'Accepted'))).all()
     return render_template('job_applicants.html', job=job, applicants=applicants)
@@ -177,17 +163,6 @@ def apply_job(job_id):
             return render_template('listing_page.html', jobs=jobs)
         else:
             return render_template('job_application.html', job=job)
-
-        '''
-        else:
-            # Create a new UserJob instance
-            new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied', title=title)
-            # Add it to the database session
-            db.session.add(new_user_job)
-            db.session.commit()
-            flash('You have successfully applied for the job.')
-
-            return render_template('job_application.html', job=job)'''
 
 @main.route('/submit_application', methods=['POST'])
 @login_required
@@ -216,10 +191,6 @@ def submit_application():
     db.session.add(new_application)
 
     # Updating the status of the UserJob to 'Accepted'
-    '''user_job = UserJob.query.filter_by(user_id=current_user.id).first()
-    if user_job:
-        user_job.status = 'Accepted'
-        db.session.commit()'''
     new_user_job = UserJob(user_id=current_user.id, job_id=job_id, status='Applied', title=job_title)
     db.session.add(new_user_job)
     db.session.commit()

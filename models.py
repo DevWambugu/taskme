@@ -14,9 +14,6 @@ class User(db.Model, UserMixin):
     location = Column(String(128), nullable=True)
 
     job_applications = db.relationship('JobApplication', backref='applicant', lazy='dynamic')
-    # places = db.relationship('Place', backref='user', cascade='all, delete, delete-orphan')
-    # reviews = db.relationship('Review', backref='user', cascade='all, delete, delete-orphan')
-    # applied_jobs = db.relationship('Job', secondary='user_job')
 
 class UserJob(db.Model):
     __tablename__ = "user_job"
@@ -29,7 +26,6 @@ class UserJob(db.Model):
     # Define a backref from Job to access users
     user = relationship('User', backref='user_jobs')
     job = relationship('Job', backref='user_jobs')
-    #job = relationship('Job')
 
     # Define a relationship with Job explicitly
     job = relationship('Job', backref='applied_users')
